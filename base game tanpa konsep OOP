@@ -1,0 +1,105 @@
+var x = 200;
+var y = 350;
+var d = 20;
+
+let peluruBanyak = [];
+let musuhBanyak = [];
+let skor = 0;
+
+function setup() {
+  
+  //buat kanvas
+  
+  createCanvas(400, 400);
+
+  //spawn musuh
+  
+  for (let i = 0; i < 10; i++) {
+    let musuh = {
+      x: random(0, width),
+      y: random(-800, 0),
+    };
+    musuhBanyak.push(musuh);
+  }
+}
+
+function draw() {
+  background(51);
+
+  rectMode(CENTER);
+  
+  //kontroler player menggunakan W,A,S,D
+  
+  if (keyIsPressed) {
+    if (keyCode == 65) {
+      x = x - 7;
+    } else if (keyCode == 68) {
+      x = x + 7;
+    }
+    if (keyCode == 87) {
+      y = y - 7;
+    } else if (keyCode == 83) {
+      y = y + 7;
+    }
+  }
+
+  if (x + d / 2 == width || x - d / 2 == 0) {
+    x = 200;
+    y = 200;
+  }
+
+  if (y + d / 2 == width || y - d / 2 == 0) {
+    x = 200;
+    y = 200;
+  }
+
+  rect(x, y, d, d);
+
+  //gambar peluru
+  
+  for (let peluru of peluruBanyak) {
+    peluru.y -= 10;
+    circle(peluru.x, peluru.y, 10);
+  }
+
+  //mengupdate dan memunculkan musuh
+  for (let musuh of musuhBanyak) {
+    musuh.y += 2;
+    rect(musuh.x, musuh.y, 10);
+    if (musuh.y > height){
+      text("permainan berakhir, anda kalah wkwkw", 100, 200)
+      noLoop()
+    }
+  }
+
+  //spawn banyak musuh dan peluru
+
+  for (let musuh of musuhBanyak) {
+    for (let peluru of peluruBanyak) {
+      if (dist(musuh.x, musuh.y, peluru.x, peluru.y) < 10) {
+        musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
+        peluruBanyak.splice(peluruBanyak.indexOf(peluru), 1);
+        for (let i = 0; i < 10; i++) {
+          let loopMusuh = {
+            x: random(0, width),
+            y: random(-800, 0),
+          };
+          musuhBanyak.push(loopMusuh);
+          skor += 10
+        }
+      }
+    }
+  }
+  text(skor, 15, 25)
+}
+
+function mousePressed() {
+
+  //spawn peluru saat user click mause
+  
+  let peluru = {
+    x: x,
+    y: y,
+  };
+  peluruBanyak.push(peluru);
+}
