@@ -8,9 +8,12 @@ var backgroundImg;
 let peluruBanyak = [];
 let musuhBanyak = [];
 let skor = 0;
+let mySound;
 
 function preload(){
   backgroundImg = loadImage('latar.jpg')
+  soundFormats('mp3', 'ogg');
+  mySound = loadSound('laser');
 }
 
 function setup() {
@@ -47,18 +50,8 @@ function draw() {
     } else if (keyCode == 83) {
       y = y + 7;
     }
-  }  
-
-//   if (x + d / 2 == width || x - d / 2 == 0) {
-//     x = 200;
-//     y = 200;
-//   }
-
-//   if (y + d / 2 == width || y - d / 2 == 0) {
-//     x = 200;ddd
-//     y = 200;
-//   }
-
+  }
+  
   if(x > 400){
     x = 0
   }else if(x<0){
@@ -69,6 +62,17 @@ function draw() {
     y = 0
   }else if(y < 0){
     y = 400
+  }
+  
+
+  if (x + d / 2 == width || x - d / 2 == 0) {
+    x = 200;
+    y = 200;
+  }
+
+  if (y + d / 2 == width || y - d / 2 == 0) {
+    x = 200;
+    y = 200;
   }
 
   image(img, x, y, d, d);
@@ -116,11 +120,14 @@ function draw() {
   text(skor, 15, 25);
 }
 
+
+
 function mousePressed() {
   //spawn peluru saat user click mause
   let peluru = {
-    x: x,
+    x: x + 12,
     y: y,
   };
   peluruBanyak.push(peluru);
+  mySound.play();
 }
