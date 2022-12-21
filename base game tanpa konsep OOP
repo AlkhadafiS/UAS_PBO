@@ -7,6 +7,7 @@ var backgroundImg;
 var laser = new Audio('laser.mp3');
 var imgmusuh;
 var imglaserbullet;
+var gameover = new Audio('gameover.mp3')
 
 let peluruBanyak = [];
 let musuhBanyak = [];
@@ -16,6 +17,7 @@ function preload(){
   backgroundImg = loadImage('latar.jpg')
   soundFormats('mp3', 'ogg');
   mySound = loadSound('laser');
+  mySound = loadSound('gameover');
 }
 
 function setup() {
@@ -98,6 +100,7 @@ function draw() {
         fill('#FFFFFF');
         text("permainan berakhir, anda kalah wkwkw", 100, 200);
         text("skor anda : " + skor, 100, 215)
+        gameover.play();
         noLoop();
       }
     }
