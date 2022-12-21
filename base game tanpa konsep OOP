@@ -97,6 +97,7 @@ function draw() {
       if(life == 0){
         fill('#FFFFFF');
         text("permainan berakhir, anda kalah wkwkw", 100, 200);
+        text("skor anda : " + skor, 100, 215)
         noLoop();
       }
     }
@@ -109,7 +110,7 @@ function draw() {
       if (dist(musuh.x, musuh.y, peluru.x, peluru.y) < 10) {
         musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
         peluruBanyak.splice(peluruBanyak.indexOf(peluru), 1);
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 2; i++) {
           let loopMusuh = {
             x: random(0, width),
             y: random(-800, 0),
