@@ -1,6 +1,7 @@
 var x = 200;
 var y = 350;
 var d = 25;
+var life = 100;
 var img;
 var backgroundImg;
 
@@ -30,6 +31,8 @@ function setup() {
 
 function draw() {
   background(backgroundImg);
+  fill('#FFFFFF');
+  text(life,200, 25)
 
   rectMode(CENTER);
 
@@ -45,16 +48,18 @@ function draw() {
       y = y + 7;
     }
   }
+  
+  
 
-  if (x + d / 2 == width || x - d / 2 == 0) {
-    x = 200;
-    y = 200;
-  }
+//   if (x + d / 2 == width || x - d / 2 == 0) {
+//     x = 200;
+//     y = 200;
+//   }
 
-  if (y + d / 2 == width || y - d / 2 == 0) {
-    x = 200;
-    y = 200;
-  }
+//   if (y + d / 2 == width || y - d / 2 == 0) {
+//     x = 200;ddd
+//     y = 200;
+//   }
 
   image(img, x, y, d, d);
 
@@ -69,9 +74,13 @@ function draw() {
     musuh.y += 2;
     rect(musuh.x, musuh.y, 10);
     if (musuh.y > height) {
-      fill('#FFFFFF');
-      text("permainan berakhir, anda kalah wkwkw", 100, 200);
-      noLoop();
+      musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
+      life--
+      if(life == 0){
+        fill('#FFFFFF');
+        text("permainan berakhir, anda kalah wkwkw", 100, 200);
+        noLoop();
+      }
     }
   }
 
