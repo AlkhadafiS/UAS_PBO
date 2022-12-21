@@ -4,11 +4,11 @@ var d = 25;
 var life = 100;
 var img;
 var backgroundImg;
+var laser = new Audio('laser.mp3');
 
 let peluruBanyak = [];
 let musuhBanyak = [];
 let skor = 0;
-let mySound;
 
 function preload(){
   backgroundImg = loadImage('latar.jpg')
@@ -128,6 +128,7 @@ function mousePressed() {
     x: x + 12,
     y: y,
   };
+  laser.currentTime = 0;
+  laser.play();
   peluruBanyak.push(peluru);
-  mySound.play();
 }
