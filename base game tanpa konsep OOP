@@ -1,10 +1,16 @@
 var x = 200;
 var y = 350;
-var d = 20;
+var d = 25;
+var img;
+var backgroundImg;
 
 let peluruBanyak = [];
 let musuhBanyak = [];
 let skor = 0;
+
+function preload(){
+  backgroundImg = loadImage('latar.jpg')
+}
 
 function setup() {
   createCanvas(400, 400);
@@ -17,12 +23,14 @@ function setup() {
     };
     musuhBanyak.push(musuh);
   }
+
+  img = loadImage("pesawat.png");
+  
 }
 
 function draw() {
-  background(51);
+  background(backgroundImg);
 
-  
   rectMode(CENTER);
 
   if (keyIsPressed) {
@@ -48,7 +56,7 @@ function draw() {
     y = 200;
   }
 
-  rect(x, y, d, d);
+  image(img, x, y, d, d);
 
   //gambar peluru
   for (let peluru of peluruBanyak) {
@@ -60,9 +68,10 @@ function draw() {
   for (let musuh of musuhBanyak) {
     musuh.y += 2;
     rect(musuh.x, musuh.y, 10);
-    if (musuh.y > height){
-      text("permainan berakhir, anda kalah wkwkw", 100, 200)
-      noLoop()
+    if (musuh.y > height) {
+      fill('#FFFFFF');
+      text("permainan berakhir, anda kalah wkwkw", 100, 200);
+      noLoop();
     }
   }
 
@@ -79,12 +88,13 @@ function draw() {
             y: random(-800, 0),
           };
           musuhBanyak.push(loopMusuh);
-          skor += 10
+          skor += 10;
         }
       }
     }
   }
-  text(skor, 15, 25)
+  fill('#FFFFFF');
+  text(skor, 15, 25);
 }
 
 function mousePressed() {
