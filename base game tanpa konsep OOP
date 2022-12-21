@@ -5,6 +5,7 @@ var life = 100;
 var img;
 var backgroundImg;
 var laser = new Audio('laser.mp3');
+var imgmusuh;
 
 let peluruBanyak = [];
 let musuhBanyak = [];
@@ -29,6 +30,7 @@ function setup() {
   }
 
   img = loadImage("pesawat.png");
+  imgmusuh = loadImage('asteroid.png')
   
 }
 
@@ -86,7 +88,7 @@ function draw() {
   //mengupdate dan memunculkan musuh
   for (let musuh of musuhBanyak) {
     musuh.y += 2;
-    rect(musuh.x, musuh.y, 10);
+    image(imgmusuh, musuh.x, musuh.y, 20, 20);
     if (musuh.y > height) {
       musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
       life--
