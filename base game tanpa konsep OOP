@@ -6,6 +6,7 @@ var img;
 var backgroundImg;
 var laser = new Audio('laser.mp3');
 var imgmusuh;
+var imglaserbullet;
 
 let peluruBanyak = [];
 let musuhBanyak = [];
@@ -31,6 +32,7 @@ function setup() {
 
   img = loadImage("pesawat.png");
   imgmusuh = loadImage('asteroid.png')
+  imglaserbullet = loadImage('laserbullet.png');
   
 }
 
@@ -82,7 +84,7 @@ function draw() {
   //gambar peluru
   for (let peluru of peluruBanyak) {
     peluru.y -= 10;
-    circle(peluru.x, peluru.y, 10);
+    image(imglaserbullet, peluru.x, peluru.y, 10, 10);
   }
 
   //mengupdate dan memunculkan musuh
