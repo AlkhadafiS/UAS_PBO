@@ -7,14 +7,10 @@ let musuhBanyak = [];
 let skor = 0;
 
 function setup() {
-  
-  //buat kanvas
-  
   createCanvas(400, 400);
 
   //spawn musuh
-  
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 2; i++) {
     let musuh = {
       x: random(0, width),
       y: random(-800, 0),
@@ -26,10 +22,9 @@ function setup() {
 function draw() {
   background(51);
 
+  
   rectMode(CENTER);
-  
-  //kontroler player menggunakan W,A,S,D
-  
+
   if (keyIsPressed) {
     if (keyCode == 65) {
       x = x - 7;
@@ -56,7 +51,6 @@ function draw() {
   rect(x, y, d, d);
 
   //gambar peluru
-  
   for (let peluru of peluruBanyak) {
     peluru.y -= 10;
     circle(peluru.x, peluru.y, 10);
@@ -79,7 +73,7 @@ function draw() {
       if (dist(musuh.x, musuh.y, peluru.x, peluru.y) < 10) {
         musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
         peluruBanyak.splice(peluruBanyak.indexOf(peluru), 1);
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 1; i++) {
           let loopMusuh = {
             x: random(0, width),
             y: random(-800, 0),
@@ -94,9 +88,7 @@ function draw() {
 }
 
 function mousePressed() {
-
   //spawn peluru saat user click mause
-  
   let peluru = {
     x: x,
     y: y,
