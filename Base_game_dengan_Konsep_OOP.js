@@ -10,6 +10,7 @@ var imglaserbullet;
 var gameover = new Audio("gameover.mp3");
 var imghati;
 var ledakan = new Audio("ledakan.mp3");
+var bgm = new Audio("bgm.mp3");
 
 let peluruBanyak = [];
 let musuhBanyak = [];
@@ -36,13 +37,19 @@ class Level{
     this.latestLevel = latestLevel
     this.maxLevel = maxLevel
   }
-  
+
+  showLevel(){
+    fill('#FFFFFF');
+    text('Level:' + this.currentLevel,15,40)
+  }
+
   setLevel(){
-    //buat mengubah levelnya
+    this.currentLevel = this.currentLevel
   }
   
   getCurrentLevel(){
     //buat dapetin level yang dimasukin
+    return this.currentLevel
   }
 }
 
@@ -132,6 +139,16 @@ class Hero extends Entity{
 
 //------------Start--------------
 
+var kondisi = true
+    while(kondisi){
+      var input =  prompt("Masukkan Level [1-3]")
+      if(input >= 1 && input <= 3){
+        kondisi = false
+      }else{
+        alert("Level hanya dari 1-3")
+      }
+    }
+
 function preload(){
   backgroundImg = loadImage('latar.jpg')
   img = loadImage("pesawat.png");
@@ -141,9 +158,11 @@ function preload(){
 
   soundFormats('mp3', 'ogg');
   mySound = loadSound("laser");
-  mySound= loadSound("gameover");
+  mySound = loadSound("gameover");
   mySound = loadSound("ledakan");
+  mySound = loadSound("bgm");
 }
+
 
 function loopPeluru(n){
   for(let i = 0; i < n; i++){
@@ -152,20 +171,24 @@ function loopPeluru(n){
 }
 
 function setup(){
+  bgm.play()
   peta = new Map(400,400); //canvas
   pesawatTerbang = new Hero(d,d,x,y,img,life,skor); //pesawat
-  
+  myLevel = new Level(input,input,3)
+
   //spawn musuh
-  loopPeluru(3)
+  loopPeluru(1)
   peta.init()
 }
 
 function draw(){
   background(backgroundImg);
   rectMode(CENTER);
+  
 
   pesawatTerbang.saveScore()
   pesawatTerbang.showLife()
+  myLevel.showLevel()
 
   if (keyIsPressed) {
     if (keyCode == 65) {
@@ -202,7 +225,14 @@ function draw(){
 
   //mengupdate dan memunculkan musuh
   for(let musuh of musuhBanyak){
-    musuh.y += 2
+    if(myLevel.currentLevel == 1){
+      musuh.y += 2
+    }else if(myLevel.currentLevel == 2){
+      musuh.y += 3
+    }else if(myLevel.currentLevel == 3){
+      musuh.y += 4
+    }
+    
     musuh.show()
   
     if (dist(musuh.x, musuh.y, pesawatTerbang.x, pesawatTerbang.y) <= 20) {
