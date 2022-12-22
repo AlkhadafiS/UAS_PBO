@@ -40,11 +40,12 @@ class Level{
 
   showLevel(){
     fill('#FFFFFF');
-    text('Level:' + this.currentLevel,15,40)
+    text("Level : " + this.currentLevel, 15, 40);
   }
-
-  setLevel(){
-    this.currentLevel = this.currentLevel
+  
+  setLevel(currentLevel){
+    //buat mengubah levelnya
+    this.currentLevel = currentLevel
   }
   
   getCurrentLevel(){
@@ -139,16 +140,6 @@ class Hero extends Entity{
 
 //------------Start--------------
 
-var kondisi = true
-    while(kondisi){
-      var input =  prompt("Masukkan Level [1-3]")
-      if(input >= 1 && input <= 3){
-        kondisi = false
-      }else{
-        alert("Level hanya dari 1-3")
-      }
-    }
-
 function preload(){
   backgroundImg = loadImage('latar.jpg')
   img = loadImage("pesawat.png");
@@ -163,7 +154,6 @@ function preload(){
   mySound = loadSound("bgm");
 }
 
-
 function loopPeluru(n){
   for(let i = 0; i < n; i++){
     musuhBanyak.push(new Monster(15,15,random(10,width - 10),random(-800,0),imgmusuh,1))
@@ -174,21 +164,20 @@ function setup(){
   bgm.play()
   peta = new Map(400,400); //canvas
   pesawatTerbang = new Hero(d,d,x,y,img,life,skor); //pesawat
-  myLevel = new Level(input,input,3)
-
+  level = new Level(1,1,3)
+  
   //spawn musuh
-  loopPeluru(1)
+  loopPeluru(10)
   peta.init()
 }
 
 function draw(){
   background(backgroundImg);
   rectMode(CENTER);
-  
 
   pesawatTerbang.saveScore()
   pesawatTerbang.showLife()
-  myLevel.showLevel()
+  level.showLevel()
 
   if (keyIsPressed) {
     if (keyCode == 65) {
@@ -225,14 +214,17 @@ function draw(){
 
   //mengupdate dan memunculkan musuh
   for(let musuh of musuhBanyak){
-    if(myLevel.currentLevel == 1){
+
+    if(pesawatTerbang.score >= 0 && pesawatTerbang.score <= 200){
+      level.setLevel(1)
       musuh.y += 2
-    }else if(myLevel.currentLevel == 2){
+    }else if(pesawatTerbang.score >= 201 && pesawatTerbang.score <= 400){
+      level.setLevel(2)
       musuh.y += 3
-    }else if(myLevel.currentLevel == 3){
+    }else if(pesawatTerbang.score >= 401){
+      level.setLevel(3)
       musuh.y += 4
     }
-    
     musuh.show()
   
     if (dist(musuh.x, musuh.y, pesawatTerbang.x, pesawatTerbang.y) <= 20) {
@@ -247,6 +239,8 @@ function draw(){
         text("skor anda : " + pesawatTerbang.score, 100, 215);
         gameover.play();
         noLoop();
+        bgm.pause()
+        laser.pause()
       }
     }
 
@@ -273,8 +267,14 @@ function draw(){
 
 function mousePressed(){
   //spawn peluru saat user click mouse
-  let peluru = new Hero(15,15,pesawatTerbang.x + 8,pesawatTerbang.y,imglaserbullet,1,0)
-  peluruBanyak.push(peluru);
+  let peluru1 = new Hero(15,15,pesawatTerbang.x + 7,pesawatTerbang.y,imglaserbullet,1,0)
+  let peluru2 = new Hero(15,15,pesawatTerbang.x + 13,pesawatTerbang.y,imglaserbullet,1,0)
+  peluruBanyak.push(peluru1);
+  peluruBanyak.push(peluru2);
   laser.currentTime = 0;
-  laser.play();
+  if (pesawatTerbang.life <= 0){
+    laser.pause()
+  }else{
+    laser.play();
+  }
 }
