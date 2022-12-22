@@ -49,14 +49,14 @@ function draw() {
   rectMode(CENTER);
 
   if (keyIsPressed) {
-    if (keyCode == 65) {
+    if (keyCode == 65 || keyCode == LEFT_ARROW) {
       x = x - 7;
-    } else if (keyCode == 68) {
+    } else if (keyCode == 68 || keyCode == RIGHT_ARROW) {
       x = x + 7;
     }
-    if (keyCode == 87) {
+    if (keyCode == 87 || keyCode == UP_ARROW) {
       y = y - 7;
-    } else if (keyCode == 83) {
+    } else if (keyCode == 83 || keyCode == DOWN_ARROW) {
       y = y + 7;
     }
   }
