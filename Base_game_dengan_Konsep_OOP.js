@@ -204,18 +204,7 @@ function draw(){
   for(let musuh of musuhBanyak){
     musuh.y += 2
     musuh.show()
-    // if (musuh.y > height){
-    //   musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
-    //   loopPeluru(1)
-    //   pesawatTerbang.calculateLife()
-    //   if(pesawatTerbang.life <= 0){
-    //     fill('#FFFFFF');
-    //     text("permainan berakhir, anda kalah wkwkw", 100, 200);
-    //     text("skor anda : " + skor, 100, 215)
-    //     gameover.play();
-    //     noLoop();
-    //   }
-    // }
+  
     if (dist(musuh.x, musuh.y, pesawatTerbang.x, pesawatTerbang.y) <= 20) {
       musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
       ledakan.currentTime = 0;
@@ -232,7 +221,8 @@ function draw(){
     }
 
     if (musuh.y > height){
-      loopPeluru(1) // masih ada bug
+      musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
+      loopPeluru(1)
     }
   }
 
