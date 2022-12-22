@@ -215,13 +215,13 @@ function draw(){
   //mengupdate dan memunculkan musuh
   for(let musuh of musuhBanyak){
 
-    if(pesawatTerbang.score >= 0 && pesawatTerbang.score <= 200){
+    if(pesawatTerbang.score >= 0 && pesawatTerbang.score <= 2000){
       level.setLevel(1)
       musuh.y += 2
-    }else if(pesawatTerbang.score >= 201 && pesawatTerbang.score <= 400){
+    }else if(pesawatTerbang.score >= 2001 && pesawatTerbang.score <= 4000){
       level.setLevel(2)
       musuh.y += 3
-    }else if(pesawatTerbang.score >= 401){
+    }else if(pesawatTerbang.score >= 4001){
       level.setLevel(3)
       musuh.y += 4
     }
