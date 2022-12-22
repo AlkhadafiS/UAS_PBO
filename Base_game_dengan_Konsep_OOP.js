@@ -214,7 +214,7 @@ function draw(){
       if (pesawatTerbang.life <= 0) {
         fill("#FFFFFF");
         text("permainan berakhir, anda kalah wkwkw", 100, 200);
-        text("skor anda : " + skor, 100, 215);
+        text("skor anda : " + pesawatTerbang.increaseScore, 100, 215);
         gameover.play();
         noLoop();
       }
