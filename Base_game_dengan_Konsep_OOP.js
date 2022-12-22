@@ -1,7 +1,7 @@
 var x = 200;
 var y = 350;
 var d = 37;
-var life = 100;
+var life = 3;
 var img;
 var backgroundImg;
 var laser = new Audio('laser.mp3');
@@ -139,7 +139,9 @@ function preload(){
   imghati = loadImage("hati.png");
 
   soundFormats('mp3', 'ogg');
-  mySound = loadSound('laser');
+  mySound = loadSound("laser");
+  mySound = loadSound("gameover");
+  mySound = loadSound("ledakan");
 }
 
 function loopPeluru(n){
@@ -201,14 +203,27 @@ function draw(){
   for(let musuh of musuhBanyak){
     musuh.y += 2
     musuh.show()
-    if (musuh.y > height){
+    // if (musuh.y > height){
+    //   musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
+    //   loopPeluru(1)
+    //   pesawatTerbang.calculateLife()
+    //   if(pesawatTerbang.life <= 0){
+    //     fill('#FFFFFF');
+    //     text("permainan berakhir, anda kalah wkwkw", 100, 200);
+    //     text("skor anda : " + skor, 100, 215)
+    //     gameover.play();
+    //     noLoop();
+    //   }
+    // }
+    if (dist(musuh.x, musuh.y, pesawatTerbang.x, pesawatTerbang.y) <= 20) {
       musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
-      loopPeluru(1)
-      pesawatTerbang.calculateLife()
-      if(life == 0){
-        fill('#FFFFFF');
+      ledakan.currentTime = 0;
+      ledakan.play();
+      pesawatTerbang.life--;
+      if (pesawatTerbang.life <= 0) {
+        fill("#FFFFFF");
         text("permainan berakhir, anda kalah wkwkw", 100, 200);
-        text("skor anda : " + skor, 100, 215)
+        text("skor anda : " + skor, 100, 215);
         gameover.play();
         noLoop();
       }
@@ -235,5 +250,5 @@ function mousePressed(){
   let peluru = new Hero(15,15,pesawatTerbang.x + 8,pesawatTerbang.y,imglaserbullet,1,0)
   peluruBanyak.push(peluru);
   laser.currentTime = 0;
-  laser.play();
+  laser.play();
 }
