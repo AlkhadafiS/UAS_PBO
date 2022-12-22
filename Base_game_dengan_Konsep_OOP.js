@@ -4,11 +4,12 @@ var d = 37;
 var life = 3;
 var img;
 var backgroundImg;
-var laser = new Audio('laser.mp3');
+var laser = new Audio("laser.mp3");
 var imgmusuh;
 var imglaserbullet;
-var gameover = new Audio('gameover.mp3')
+var gameover = new Audio("gameover.mp3");
 var imghati;
+var ledakan = new Audio("ledakan.mp3");
 
 let peluruBanyak = [];
 let musuhBanyak = [];
@@ -140,7 +141,7 @@ function preload(){
 
   soundFormats('mp3', 'ogg');
   mySound = loadSound("laser");
-  mySound = loadSound("gameover");
+  mySound= loadSound("gameover");
   mySound = loadSound("ledakan");
 }
 
@@ -219,7 +220,8 @@ function draw(){
       musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
       ledakan.currentTime = 0;
       ledakan.play();
-      pesawatTerbang.life--;
+      loopPeluru(1);
+      pesawatTerbang.calculateLife();
       if (pesawatTerbang.life <= 0) {
         fill("#FFFFFF");
         text("permainan berakhir, anda kalah wkwkw", 100, 200);
@@ -227,6 +229,10 @@ function draw(){
         gameover.play();
         noLoop();
       }
+    }
+
+    if (musuh.y > height){
+      loopPeluru(1) // masih ada bug
     }
   }
 
@@ -250,5 +256,5 @@ function mousePressed(){
   let peluru = new Hero(15,15,pesawatTerbang.x + 8,pesawatTerbang.y,imglaserbullet,1,0)
   peluruBanyak.push(peluru);
   laser.currentTime = 0;
-  laser.play();
+  laser.play();
 }
