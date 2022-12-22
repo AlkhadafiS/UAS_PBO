@@ -1,6 +1,6 @@
 var x = 200;
 var y = 350;
-var d = 25;
+var d = 37;
 var life = 100;
 var img;
 var backgroundImg;
