@@ -1,12 +1,14 @@
 var x = 200;
 var y = 350;
-var d = 25;
+var d = 37;
 var life = 100;
 var img;
 var backgroundImg;
 var laser = new Audio('laser.mp3');
 var imgmusuh;
 var imglaserbullet;
+var gameover = new Audio('gameover.mp3')
+var imghati;
 
 let peluruBanyak = [];
 let musuhBanyak = [];
@@ -62,36 +64,36 @@ class Entity{
   
   moveRight(){
     //gerakin ke kanan
-    this.x = this.x + 7;
+    this.x += 7;
   }
   
   moveLeft(){
     //gerak ke kiri
-    this.x = this.x - 7;
+    this.x -= 7;
   }
   
   moveDown(){
     //gerak ke bawah
-    this.y = this.y + 7;
+    this.y += 7;
   }
   
   moveUp(){
     //gerak ke atas
-    this.y = this.y - 7;
+    this.y -= 7;
   }
 }
 
 class Monster extends Entity{
-  constructor(height,width,x,y,life,color,effect,type){
-    super(height,width,x,y)
+  constructor(height,width,x,y,image,life){
+    super(height,width,x,y,image)
     this.life = life
-    this.color = color
-    this.effect = effect
-    this.type = type
+    // this.color = color
+    // this.effect = effect
+    // this.type = type
   }
   
   moveRandom(){
-    
+    this.y += 2
   }
   
   saveScore(){
@@ -107,15 +109,23 @@ class Hero extends Entity{
   }
   
   increaseScore(){
-    //score naik kalo berhasil nembak musuh
+    this.score += 10
   }
   
   calculateLife(){
-    //ngurangin nyawa kalo misalnya nabrak ?
+    //ngurangin nyawa kalo misalnya nabrak
+    this.life--
+  }
+
+  showLife(){
+    fill('#FFFFFF');
+    image(imghati, 175, 13, 19, 19)
+    text(this.life,200, 25)
   }
   
   saveScore(){
-    
+    fill('#FFFFFF');
+    text(this.score, 15, 25);
   }
 }
 
@@ -126,23 +136,33 @@ function preload(){
   img = loadImage("pesawat.png");
   imgmusuh = loadImage('asteroid.png')
   imglaserbullet = loadImage('laserbullet.png');
+  imghati = loadImage("hati.png");
 
   soundFormats('mp3', 'ogg');
   mySound = loadSound('laser');
 }
 
-function setup(){
-  let peta = new Map(400,400); //canvas
-  pesawatTerbang = new Hero(d,d,x,y,img,life,skor); //pesawat
-  let myPeluru = new Hero()
-  
+function loopPeluru(n){
+  for(let i = 0; i < n; i++){
+    musuhBanyak.push(new Monster(15,15,random(10,width - 10),random(-800,0),imgmusuh,1))
+  }
+}
 
+function setup(){
+  peta = new Map(400,400); //canvas
+  pesawatTerbang = new Hero(d,d,x,y,img,life,skor); //pesawat
+  
+  //spawn musuh
+  loopPeluru(3)
   peta.init()
 }
 
 function draw(){
   background(backgroundImg);
   rectMode(CENTER);
+
+  pesawatTerbang.saveScore()
+  pesawatTerbang.showLife()
 
   if (keyIsPressed) {
     if (keyCode == 65) {
@@ -170,8 +190,50 @@ function draw(){
   }
 
   pesawatTerbang.show()
+
+  //gambar peluru
+  for(let peluru of peluruBanyak){
+    peluru.y -= 10
+    peluru.show()
+  }
+
+  //mengupdate dan memunculkan musuh
+  for(let musuh of musuhBanyak){
+    musuh.y += 2
+    musuh.show()
+    if (musuh.y > height){
+      musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
+      loopPeluru(1)
+      pesawatTerbang.calculateLife()
+      if(life == 0){
+        fill('#FFFFFF');
+        text("permainan berakhir, anda kalah wkwkw", 100, 200);
+        text("skor anda : " + skor, 100, 215)
+        gameover.play();
+        noLoop();
+      }
+    }
+  }
+
+  //spawn banyak musuh dan peluru
+  for(let musuh of musuhBanyak){
+    for(let peluru of peluruBanyak){
+      //peluru mengenai musuh
+      if(dist(musuh.x,musuh.y,peluru.x,peluru.y) < 10){
+        musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
+        peluruBanyak.splice(peluruBanyak.indexOf(peluru), 1);
+        pesawatTerbang.increaseScore()
+        loopPeluru(1)
+      }
+    }
+  }
+  pesawatTerbang.saveScore()
 }
 
-function mouseIsPressed(){
-  
+function mousePressed(){
+  //spawn peluru saat user click mouse
+  let peluru = new Hero(15,15,pesawatTerbang.x + 8,pesawatTerbang.y,imglaserbullet,1,0)
+  peluruBanyak.push(peluru);
+  laser.currentTime = 0;
+  laser.play();
 }
