@@ -15,6 +15,7 @@ var bgm = new Audio("bgm.mp3");
 let peluruBanyak = [];
 let musuhBanyak = [];
 let skor = 0;
+let kalah;
 
 class Map{
   constructor(width,height){
@@ -161,6 +162,7 @@ function loopPeluru(n){
 }
 
 function setup(){
+  mode = 0;
   bgm.play()
   peta = new Map(400,400); //canvas
   pesawatTerbang = new Hero(d,d,x,y,img,life,skor); //pesawat
@@ -172,97 +174,112 @@ function setup(){
 }
 
 function draw(){
+  clear();
   background(backgroundImg);
   rectMode(CENTER);
-
-  pesawatTerbang.saveScore()
-  pesawatTerbang.showLife()
-  level.showLevel()
-
-  if (keyIsPressed) {
-    if (keyCode == 65) {
-      pesawatTerbang.moveLeft()
-    } else if (keyCode == 68) {
-      pesawatTerbang.moveRight()
-    }
-    if (keyCode == 87) {
-      pesawatTerbang.moveUp()
-    } else if (keyCode == 83) {
-      pesawatTerbang.moveDown()
-    }
-  }
-
-  if(pesawatTerbang.x > 400){
-    pesawatTerbang.x = 0
-  }else if(pesawatTerbang.x<0){
-    pesawatTerbang.x = 400
-  }
   
-  if(pesawatTerbang.y > 400){
-    pesawatTerbang.y = 0
-  }else if(y < 0){
-    pesawatTerbang.y = 400
-  }
-
-  pesawatTerbang.show()
-
-  //gambar peluru
-  for(let peluru of peluruBanyak){
-    peluru.y -= 10
-    peluru.show()
-  }
-
-  //mengupdate dan memunculkan musuh
-  for(let musuh of musuhBanyak){
-
-    if(pesawatTerbang.score >= 0 && pesawatTerbang.score <= 2000){
-      level.setLevel(1)
-      musuh.y += 2
-    }else if(pesawatTerbang.score >= 2001 && pesawatTerbang.score <= 4000){
-      level.setLevel(2)
-      musuh.y += 3
-    }else if(pesawatTerbang.score >= 4001){
-      level.setLevel(3)
-      musuh.y += 4
+    if(mode == 0){  
+      info();      
     }
-    musuh.show()
-  
-    if (dist(musuh.x, musuh.y, pesawatTerbang.x, pesawatTerbang.y) <= 20) {
-      musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
-      ledakan.currentTime = 0;
-      ledakan.play();
-      loopPeluru(1);
-      pesawatTerbang.calculateLife();
-      if (pesawatTerbang.life <= 0) {
-        fill("#FFFFFF");
-        text("permainan berakhir, anda kalah wkwkw", 100, 200);
-        text("skor anda : " + pesawatTerbang.score, 100, 215);
-        gameover.play();
-        noLoop();
-        bgm.pause()
-        laser.pause()
+    if(mode == 1) {  
+      pesawatTerbang.saveScore()
+      pesawatTerbang.showLife()
+      level.showLevel()
+
+      if (keyIsPressed) {
+
+        if (keyCode == 65) {
+          pesawatTerbang.moveLeft()
+        } else if (keyCode == 68) {
+          pesawatTerbang.moveRight()
+        }
+        if (keyCode == 87) {
+          pesawatTerbang.moveUp()
+        } else if (keyCode == 83) {
+          pesawatTerbang.moveDown()
+        }
       }
-    }
 
-    if (musuh.y > height){
-      musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
-      loopPeluru(1)
-    }
-  }
-
-  //spawn banyak musuh dan peluru
-  for(let musuh of musuhBanyak){
-    for(let peluru of peluruBanyak){
-      //peluru mengenai musuh
-      if(dist(musuh.x,musuh.y,peluru.x,peluru.y) < 10){
-        musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
-        peluruBanyak.splice(peluruBanyak.indexOf(peluru), 1);
-        pesawatTerbang.increaseScore()
-        loopPeluru(1)
+      if(pesawatTerbang.x > 400){
+        pesawatTerbang.x = 0
+      }else if(pesawatTerbang.x<0){
+        pesawatTerbang.x = 400
       }
+
+      if(pesawatTerbang.y > 400){
+        pesawatTerbang.y = 0
+      }else if(y < 0){
+        pesawatTerbang.y = 400
+      }
+
+      pesawatTerbang.show()
+
+      //gambar peluru
+      for(let peluru of peluruBanyak){
+        peluru.y -= 10
+        peluru.show()
+      }
+
+      //mengupdate dan memunculkan musuh
+      for(let musuh of musuhBanyak){
+
+        if(pesawatTerbang.score >= 0 && pesawatTerbang.score <= 2000){
+          level.setLevel(1)
+          musuh.y += 2
+        }else if(pesawatTerbang.score >= 2001 && pesawatTerbang.score <= 4000){
+          level.setLevel(2)
+          musuh.y += 3
+        }else if(pesawatTerbang.score >= 4001){
+          level.setLevel(3)
+          musuh.y += 4
+        }
+        musuh.show()
+
+        if (dist(musuh.x, musuh.y, pesawatTerbang.x, pesawatTerbang.y) <= 20) {
+          musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
+          ledakan.currentTime = 0;
+          ledakan.play();
+          loopPeluru(1);
+          pesawatTerbang.calculateLife();
+          if (pesawatTerbang.life <= 0) {
+            clear();
+            gameover.play();
+            noLoop();
+            // bgm.pause()
+            // laser.pause()
+            kalah = true;
+          }
+        }
+
+        if (musuh.y > height){
+          musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
+          loopPeluru(1)
+        }
+      }
+      if(kalah === true) {
+        background(backgroundImg);
+        fill(255);
+        textSize(35);
+        text("-- Game Over --", 80, 190);
+        textSize(15);
+        text("Skor Anda : " + pesawatTerbang.score, 150, 220);
+        text("Klik spasi untuk memulai game", 100, 390);
+      }
+
+      //spawn banyak musuh dan peluru
+      for(let musuh of musuhBanyak){
+        for(let peluru of peluruBanyak){
+          //peluru mengenai musuh
+          if(dist(musuh.x,musuh.y,peluru.x,peluru.y) < 10){
+            musuhBanyak.splice(musuhBanyak.indexOf(musuh), 1);
+            peluruBanyak.splice(peluruBanyak.indexOf(peluru), 1);
+            pesawatTerbang.increaseScore()
+            loopPeluru(1)
+          }
+        }
+      }
+      pesawatTerbang.saveScore()
     }
-  }
-  pesawatTerbang.saveScore()
 }
 
 function mousePressed(){
@@ -276,5 +293,24 @@ function mousePressed(){
     laser.pause()
   }else{
     laser.play();
+  }
+}
+
+function info(){
+  fill(255);
+  textSize(35);
+  text("SPACE SHOOTER", 50, 100);
+  textSize(18);
+  text("Anggota Kelompok :", 120, 160);
+  textSize(15);
+  text("Alkhadafi Saddam S (NPM. 2117051049)", 60, 190);
+  text("Adli Fiqrullah (NPM. 2117051075)", 90, 210);
+  text("Dhiaurrahman Raziq Ramadhan (NPM. 2157051048)", 20, 230);
+  text("Klik spasi untuk memulai game", 100, 390);
+}
+
+function keyPressed() {
+  if(key === " "){
+    mode = 1;
   }
 }
