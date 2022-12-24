@@ -154,6 +154,8 @@ function preload(){
   mySound = loadSound("gameover");
   mySound = loadSound("ledakan");
   mySound = loadSound("bgm");
+  
+  myFont = loadFont('retro.ttf');
 }
 
 function loopPeluru(n){
