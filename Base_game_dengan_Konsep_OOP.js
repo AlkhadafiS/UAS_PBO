@@ -174,6 +174,8 @@ function setup(){
   //spawn musuh
   loopPeluru(10)
   peta.init()
+  
+  textFont(myFont);
 }
 
 function draw(){
