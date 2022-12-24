@@ -267,7 +267,6 @@ function draw(){
         text("-- Game Over --", 70, 190);
         textSize(15);
         text("Skor Anda : " + pesawatTerbang.score, 150, 220);
-        text("Klik spasi untuk memulai game", 90, 390);
         bgm.pause()
         laser.pause()
       }
