@@ -69,7 +69,8 @@ class Entity{
   }
   
   attack(){
-    //kemungkinan ini ntar dimasukin fungsi buat bullet nya
+    //untuk menggerakkan peluru
+    this.y -= 10
   }
   
   moveRight(){
