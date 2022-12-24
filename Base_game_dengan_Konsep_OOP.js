@@ -95,12 +95,12 @@ class Entity{
 }
 
 class Monster extends Entity{
-  constructor(height,width,x,y,image,life){
+  constructor(height,width,x,y,image,life,color = 0,effect = 0,type = 0){
     super(height,width,x,y,image)
     this.life = life
-    // this.color = color
-    // this.effect = effect
-    // this.type = type
+    this.color = color
+    this.effect = effect
+    this.type = type
   }
   
   moveRandom(){
