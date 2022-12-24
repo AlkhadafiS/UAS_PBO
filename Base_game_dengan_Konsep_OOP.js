@@ -310,7 +310,7 @@ function info(){
   textSize(15);
   text("Alkhadafi Saddam S (NPM. 2117051049)", 60, 190);
   text("Adli Fiqrullah (NPM. 2117051075)", 90, 210);
-  text("Dhiaurrahman Raziq Ramadhan (NPM. 2157051048)", 20, 230);
+  text("Dhiaurrahman Raziq Ramadhan (NPM. 2157051048)", 10, 230);
   text("Klik spasi untuk memulai game", 100, 390);
 }
 
