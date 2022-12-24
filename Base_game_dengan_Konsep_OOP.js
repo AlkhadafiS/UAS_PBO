@@ -251,8 +251,6 @@ function draw(){
             clear();
             gameover.play();
             noLoop();
-            bgm.pause()
-            laser.pause()
             kalah = true;
           }
         }
@@ -270,6 +268,8 @@ function draw(){
         textSize(15);
         text("Skor Anda : " + pesawatTerbang.score, 150, 220);
         text("Klik spasi untuk memulai game", 90, 390);
+        bgm.pause()
+        laser.pause()
       }
 
       //spawn banyak musuh dan peluru
