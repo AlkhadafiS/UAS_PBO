@@ -93,17 +93,7 @@ class Entity {
 }
 
 class Monster extends Entity {
-  constructor(
-    height,
-    width,
-    x,
-    y,
-    image,
-    life,
-    color = 0,
-    effect = 0,
-    type = 0
-  ) {
+  constructor(height, width, x, y, image, life, color = 0, effect = 0, type = 0) {
     super(height, width, x, y, image);
     this.life = life;
     this.color = color;
@@ -295,24 +285,8 @@ function draw() {
 
 function mousePressed() {
   //spawn peluru saat user click mouse
-  let peluru1 = new Hero(
-    15,
-    15,
-    pesawatTerbang.x + 7,
-    pesawatTerbang.y,
-    imglaserbullet,
-    1,
-    0
-  );
-  let peluru2 = new Hero(
-    15,
-    15,
-    pesawatTerbang.x + 13,
-    pesawatTerbang.y,
-    imglaserbullet,
-    1,
-    0
-  );
+  let peluru1 = new Hero(15, 15, pesawatTerbang.x + 7, pesawatTerbang.y, imglaserbullet, 1, 0);
+  let peluru2 = new Hero(15, 15, pesawatTerbang.x + 13, pesawatTerbang.y, imglaserbullet, 1, 0);
   peluruBanyak.push(peluru1);
   peluruBanyak.push(peluru2);
   laser.currentTime = 0;
