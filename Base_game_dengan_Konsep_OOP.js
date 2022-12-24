@@ -184,7 +184,8 @@ function draw(){
   rectMode(CENTER);
   
     if(mode == 0){  
-      info();      
+      info();
+      laser.pause();
     }
     if(mode == 1) {  
       pesawatTerbang.saveScore()
@@ -250,8 +251,8 @@ function draw(){
             clear();
             gameover.play();
             noLoop();
-            // bgm.pause()
-            // laser.pause()
+            bgm.pause()
+            laser.pause()
             kalah = true;
           }
         }
