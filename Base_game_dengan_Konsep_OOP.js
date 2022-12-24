@@ -265,10 +265,10 @@ function draw(){
         background(backgroundImg);
         fill(255);
         textSize(35);
-        text("-- Game Over --", 80, 190);
+        text("-- Game Over --", 70, 190);
         textSize(15);
         text("Skor Anda : " + pesawatTerbang.score, 150, 220);
-        text("Klik spasi untuk memulai game", 100, 390);
+        text("Klik spasi untuk memulai game", 90, 390);
       }
 
       //spawn banyak musuh dan peluru
